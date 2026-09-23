@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: day9-job
+  namespace: dev
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: day9-job
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: batch-task
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "=============================="
+              echo "Day 9 Kubernetes Job"
+              echo "=============================="
+              echo "Job started"
+              echo "Processing data..."
+              sleep 10
+              echo "Processing completed"
+              echo "Job finished successfully"

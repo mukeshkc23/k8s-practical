@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: day9-cronjob
+  namespace: dev
+spec:
+  schedule: "*/2 * * * *"
+
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 2
+
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: scheduled-task
+              image: busybox:1.36
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "=============================="
+                  echo "CronJob executed"
+                  echo "Current time:"
+                  date
+                  echo "Scheduled task completed"
