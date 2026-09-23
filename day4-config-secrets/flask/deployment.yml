@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-config-app
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-config
+  template:
+    metadata:
+      labels:
+        app: flask-config
+    spec:
+      containers:
+        - name: flask
+          image: flask-k8s:v3
+          ports:
+            - containerPort: 5000
+          env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: flask-config
+                  key: APP_NAME
+            - name: ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: flask-config
+                  key: ENVIRONMENT
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: flask-config
+                  key: LOG_LEVEL
+            - name: API_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: flask-config
+                  key: API_VERSION
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: flask-secret
+                  key: API_KEY
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flask-secret
+                  key: DB_PASSWORD
