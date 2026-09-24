@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: day12-ingress
+  namespace: dev
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+
+    - host: frontend.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ingress-frontend-service
+                port:
+                  number: 80
+
+    - host: backend.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ingress-backend-service
+                port:
+                  number: 5000
