@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: np-client
+  namespace: dev
+  labels:
+    app: np-client
+spec:
+  containers:
+    - name: client
+      image: busybox:1.36
+      command:
+        - /bin/sh
+        - -c
+        - |
+          sleep 3600
